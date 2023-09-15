@@ -7,6 +7,7 @@ import { Howl, Howler } from "howler";
 Howler.volume(1.0);
 Howler.autoSuspend = false;
 
+// Initialise AudioContext engine.
 function startMachine() {
   Howler.ctx.resume();
   const elements = Array.from(document.getElementsByClassName("inactive"));
@@ -29,6 +30,7 @@ function DrumMachine() {
   ]);
   const [activeSounds, setActiveSounds] = useState({});
 
+  // Bank selector - add more sound bank links here
   const selectBank = (bank) => {
     switch (bank) {
       case "bank-2":
@@ -49,7 +51,7 @@ function DrumMachine() {
   };
 
   const keyToPad = { "Q": 0, "W": 1, "E": 2, "A": 3, "S": 4, "D": 5, "Z": 6, "X": 7, "C": 8 };
-
+  const noSoundTrigger = playClip("noSoundWasHeard");
   useEffect(() => {
     function handleKeyDown(event) {
       if (keyToPad.hasOwnProperty(event.key.toUpperCase())) {
@@ -61,7 +63,7 @@ function DrumMachine() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playClip("noSoundWasHeard")]);
+  }, [keyToPad, noSoundTrigger]);
 
   function playClip(padLetter) {
     if (keyToPad.hasOwnProperty(padLetter)) {
