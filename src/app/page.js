@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Howl, Howler } from "howler";
 
 Howler.volume(1.0);
@@ -52,10 +52,18 @@ function DrumMachine() {
 
   const keyToPad = { "Q": 0, "W": 1, "E": 2, "A": 3, "S": 4, "D": 5, "Z": 6, "X": 7, "C": 8 };
 
+  const playClip = useCallback((padLetter) => {
+    if (keyToPad.hasOwnProperty(padLetter)) {
+      const index = keyToPad[padLetter];
+      audioFiles[index]["src"].play();
+      setActiveSounds({ ...activeSounds, [padLetter]: index });
+      document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
+    }
+  }, []);
+
   useEffect(() => {
     function handleKeyDown(event) {
       if (keyToPad.hasOwnProperty(event.key.toUpperCase())) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         playClip(event.key.toUpperCase());
       }
     }
@@ -64,16 +72,16 @@ function DrumMachine() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [keyToPad]);
+  }, [keyToPad, playClip]);
 
-  function playClip(padLetter) {
-    if (keyToPad.hasOwnProperty(padLetter)) {
-      const index = keyToPad[padLetter];
-      audioFiles[index]["src"].play();
-      setActiveSounds({ ...activeSounds, [padLetter]: index });
-      document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
-    }
-  }
+  // function playClip(padLetter) {
+  //   if (keyToPad.hasOwnProperty(padLetter)) {
+  //     const index = keyToPad[padLetter];
+  //     audioFiles[index]["src"].play();
+  //     setActiveSounds({ ...activeSounds, [padLetter]: index });
+  //     document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
+  //   }
+  // }
 
   function stopClip(padLetter) {
     const soundId = activeSounds[padLetter];
