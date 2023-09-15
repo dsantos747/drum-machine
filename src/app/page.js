@@ -74,7 +74,7 @@ function DrumMachine() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playClip]);
+  });
 
   function playClip(id, padLetter) {
     audioFiles[id]["src"].play();
