@@ -52,15 +52,6 @@ function DrumMachine() {
 
   const keyToPad = { "Q": 0, "W": 1, "E": 2, "A": 3, "S": 4, "D": 5, "Z": 6, "X": 7, "C": 8 };
 
-  const playClip = useCallback((padLetter) => {
-    if (keyToPad.hasOwnProperty(padLetter)) {
-      const index = keyToPad[padLetter];
-      audioFiles[index]["src"].play();
-      setActiveSounds({ ...activeSounds, [padLetter]: index });
-      document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
-    }
-  }, []);
-
   useEffect(() => {
     function handleKeyDown(event) {
       if (keyToPad.hasOwnProperty(event.key.toUpperCase())) {
@@ -72,16 +63,16 @@ function DrumMachine() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [keyToPad, playClip]);
+  }, [keyToPad]);
 
-  // function playClip(padLetter) {
-  //   if (keyToPad.hasOwnProperty(padLetter)) {
-  //     const index = keyToPad[padLetter];
-  //     audioFiles[index]["src"].play();
-  //     setActiveSounds({ ...activeSounds, [padLetter]: index });
-  //     document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
-  //   }
-  // }
+  function playClip(padLetter) {
+    if (keyToPad.hasOwnProperty(padLetter)) {
+      const index = keyToPad[padLetter];
+      audioFiles[index]["src"].play();
+      setActiveSounds({ ...activeSounds, [padLetter]: index });
+      document.getElementById("display-text").textContent = document.getElementById(padLetter).getAttribute("name");
+    }
+  }
 
   function stopClip(padLetter) {
     const soundId = activeSounds[padLetter];
@@ -106,7 +97,7 @@ function DrumMachine() {
       </div>
       <div>
         <div className="startButton" onClick={() => startMachine()}>
-          Let's play!
+          Let&apos;s play!
         </div>
         <div className="drumMachineBody inactive">
           <div id="display" className="display">
