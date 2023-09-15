@@ -76,11 +76,12 @@ a {
   }
 }
 
-.body {
+.drumMachineBody {
   padding: 2rem;
   box-shadow: 0 0 20px rgb(var(--card-rgb));
   border-radius: 10px;
   margin: 2rem 0;
+  transition: background-color 0.5s ease-in-out;
 }
 
 .display {
@@ -93,8 +94,6 @@ a {
   padding: 0.5rem;
   display: flex;
   align-items: center;
-
-  /* text-align: left; */
 }
 
 .drumPad {
@@ -104,6 +103,11 @@ a {
   width: 50px;
   background-color: aliceblue;
   position: relative;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.inactive {
+  background-color: #0a0e1f;
 }
 
 .padLetter {
@@ -117,6 +121,14 @@ a {
   bottom: 0.1rem;
   position: absolute;
   color: #0885ff66;
+}
+
+.startButton {
+  text-align: center;
+  padding: 1rem;
+  background: radial-gradient(#a3d5ec, #8599a5);
+  border: 1px solid #627079;
+  border-radius: 5px;
 }
 
 .banner {
@@ -136,11 +148,11 @@ a {
   font-weight: 600;
   font-stretch: extra-expanded;
   background-image: linear-gradient(to right, #680e3b, #531c74, #2753e4);
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
+  background-clip: text;
   background-size: 100%;
   background-repeat: repeat;
 }
